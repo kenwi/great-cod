@@ -53,6 +53,10 @@ void Application::handleWindowInput() {
             case sf::Event::Closed:
                 std::cout << "Event closed" << std::endl;
                 renderWindow.close();
+            case sf::Event::KeyPressed:
+                std::cout << "Key pressed: " << e.key.code << std::endl;
+            case sf::Event::MouseButtonPressed:
+                std::cout << "Mouse event: " << e.mouseButton.button << std::endl;
             default:
                 break;
         }
