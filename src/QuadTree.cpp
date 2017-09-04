@@ -14,6 +14,14 @@ QuadTree::QuadTree(unsigned int level, sf::RectangleShape bounds, sf::Vector2f p
     bounds.setFillColor(this->fillColor);
     bounds.setOutlineColor(this->outlineColor);
     this->bounds = bounds;
+
+    auto subWidth = bounds.getSize().x / 2;
+    auto subHeight = bounds.getSize().y /2;
+
+    auto x = bounds.getPosition().x;
+    auto y = bounds.getPosition().y;
+    auto shape = sf::RectangleShape({subWidth, subHeight});
+
     std::cout << "Initialized quadtree" << std::endl;
     std::cout << bounds.getPosition().x << ", " << bounds.getPosition().y << std::endl;
 }
@@ -24,17 +32,24 @@ sf::RectangleShape& QuadTree::GetBounds() {
 
 void QuadTree::Split() {
     std::cout << "Splitting quadtree" << std::endl;
-/*
+
     auto subWidth = bounds.getSize().x / 2;
     auto subHeight = bounds.getSize().y /2;
+
     auto x = bounds.getPosition().x;
     auto y = bounds.getPosition().y;
+    auto shape = sf::RectangleShape({subWidth, subHeight});
 
-    nodes.push_back(QuadTree(level+1, sf::RectangleShape({subWidth, subHeight}), {100, 100}));
-    //nodes.push_back(QuadTree(level+1, sf::RectangleShape({subWidth, subHeight}), {x, y}));
+    nodes.emplace_back(level+1, shape, sf::Vector2<float>(x + subWidth, y));
+    nodes.emplace_back(level+1, shape, sf::Vector2<float>(x, y));
+    nodes.emplace_back(level+1, shape, sf::Vector2<float>(x, y + subHeight));
+    nodes.emplace_back(level+1, shape, sf::Vector2<float>(x+ subWidth, y + subHeight));
 
     std::cout << "Node count: " << nodes.size() << std::endl;
-*/
+}
+
+std::vector<QuadTree>& QuadTree::GetNodes() {
+    return nodes;
 }
 
 

@@ -16,6 +16,7 @@ public:
 
     void Split();
     sf::RectangleShape& GetBounds();
+    std::vector<QuadTree>& GetNodes();
 
 private:
     sf::RectangleShape bounds;

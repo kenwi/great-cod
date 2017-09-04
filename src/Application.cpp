@@ -42,10 +42,9 @@ void Application::render(sf::Time time) {
     renderWindow.clear();
 
     renderWindow.draw(quadTree.GetBounds());
-
-    /*for(auto &node : quadTree.GetNodes()) {
+    for(auto &node : quadTree.GetNodes()) {
         renderWindow.draw(node.GetBounds());
-    }*/
+    }
 
     renderWindow.display();
 }
@@ -55,6 +54,7 @@ void Application::handleWindowEvents() {
     while(renderWindow.pollEvent(e)) {
         switch (e.type) {
             case sf::Event::Closed:
+
                 std::cout << "Event closed" << std::endl;
                 renderWindow.close();
                 break;
