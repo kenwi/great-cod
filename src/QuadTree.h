@@ -19,16 +19,15 @@ public:
 
 private:
     sf::RectangleShape bounds;
-    sf::Color outlineColor;
-    sf::Color fillColor;
+    sf::Color outlineColor = sf::Color::White;
+    sf::Color fillColor = sf::Color::Black;
     sf::Vector2f position;
-    sf::Vector2f size;
 
-    float outlineThickness;
-    bool drawBounds;
-    unsigned maxObjects;
-    unsigned maxLevels;
-    unsigned level;
+    float outlineThickness = 2;
+    bool drawBounds = true;
+    unsigned maxObjects = 10;
+    unsigned maxLevels = 5;
+    unsigned level = 0;
 
     std::vector<QuadTree> nodes;
     std::vector<sf::CircleShape> objects;

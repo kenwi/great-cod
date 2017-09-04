@@ -7,14 +7,7 @@
 
 QuadTree::QuadTree(unsigned int level, sf::RectangleShape bounds, sf::Vector2f position) {
     this->level = level;
-    this->bounds = bounds;
     this->position = position;
-
-    this->outlineThickness = 1;
-    this->outlineColor = sf::Color::White;
-    this->fillColor = sf::Color::Black;
-    this->maxObjects = 10;
-    this->maxLevels = 5;
 
     bounds.setPosition(this->position);
     bounds.setOutlineThickness(this->outlineThickness);
