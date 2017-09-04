@@ -5,11 +5,13 @@
 #ifndef GREAT_COD_APPLICATION_H
 #define GREAT_COD_APPLICATION_H
 
+#include <memory>
 #include <iostream>
 #include <vector>
 #include <SFML/Graphics.hpp>
 
 #include "RenderContext.h"
+#include "QuadTree.h"
 
 class Application {
 
@@ -18,17 +20,16 @@ public:
     void Run();
 
 private:
+    QuadTree quadTree;
     RenderContext renderContext;
     sf::RenderWindow renderWindow;
     sf::Clock timer;
 
     void update(sf::Time time);
-
     void render(sf::Time time);
 
-    void handleInput();
-
-    void handleWindowInput();
+    void input();
+    void handleWindowEvents();
 };
 
 

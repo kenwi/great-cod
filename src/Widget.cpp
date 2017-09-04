@@ -12,5 +12,4 @@ void Widget::render(sf::RenderTarget &renderTarget) {
     shape.setFillColor(sf::Color::White);
 
     renderTarget.draw(shape);
-    std::cout << "Rendering" << std::endl;
 }
