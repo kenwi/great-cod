@@ -7,14 +7,15 @@
 #define SCREEN_WIDTH 1024
 #define SCREEN_HEIGHT 768
 
-Application::Application()
-:
-        renderWindow({SCREEN_WIDTH, SCREEN_HEIGHT}, "Application")
+Application::Application() :
+        renderWindow({SCREEN_WIDTH, SCREEN_HEIGHT}, "Application"),
+        quadTree(0, sf::RectangleShape({900, 700}), {0, 0})
 {
-    std::cout << "Init Application" << std::endl;
-
-//    quadTree.SetPosition(SCREEN_WIDTH /2 - quadTree.GetBounds().getSize().x / 2,
-//                         SCREEN_HEIGHT/2 - quadTree.GetBounds().getSize().y / 2);
+    quadTree.GetBounds().setPosition({
+                    SCREEN_WIDTH/2 - quadTree.GetBounds().getSize().x/2,
+                    SCREEN_HEIGHT/2 - quadTree.GetBounds().getSize().y/2
+            });
+    std::cout << "Initialized application" << std::endl;
 }
 
 void Application::Run() {
@@ -28,9 +29,7 @@ void Application::Run() {
         auto time = timer.getElapsedTime();
         auto dt = time - lastTime;
 
-        // Input, Update, Render
-        input();
-        update(dt);
+        // Render
         render(dt);
 
         // Update time
@@ -39,21 +38,14 @@ void Application::Run() {
     }
 }
 
-void Application::input() {
-
-}
-
-void Application::update(sf::Time time) {
-
-}
-
 void Application::render(sf::Time time) {
     renderWindow.clear();
 
     renderWindow.draw(quadTree.GetBounds());
-    for(auto &node : quadTree.GetNodes()) {
+
+    /*for(auto &node : quadTree.GetNodes()) {
         renderWindow.draw(node.GetBounds());
-    }
+    }*/
 
     renderWindow.display();
 }

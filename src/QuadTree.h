@@ -12,14 +12,10 @@
 class QuadTree {
 
 public:
-    QuadTree();
     QuadTree(unsigned int level, sf::RectangleShape bounds, sf::Vector2f position);
 
-    void SetPosition(float x, float y);
     void Split();
-
-    std::vector<QuadTree> GetNodes();
-    sf::RectangleShape GetBounds();
+    sf::RectangleShape& GetBounds();
 
 private:
     sf::RectangleShape bounds;

@@ -21,14 +21,11 @@ public:
 
 private:
     QuadTree quadTree;
-    RenderContext renderContext;
     sf::RenderWindow renderWindow;
     sf::Clock timer;
 
-    void update(sf::Time time);
     void render(sf::Time time);
 
-    void input();
     void handleWindowEvents();
 };
 
