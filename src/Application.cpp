@@ -47,7 +47,6 @@ void Application::render(sf::Time time) {
     for(auto &node : quadTree.GetNodes()) {
         renderWindow.draw(node.GetBounds());
     }
-
     renderWindow.display();
 }
 
@@ -73,8 +72,15 @@ void Application::handleWindowEvents() {
                 }
                 break;
             case sf::Event::MouseButtonPressed:
-                std::cout << "Mouse event: " << e.mouseButton.button << std::endl;
+                if(e.mouseButton.button == sf::Mouse::Left)
+                {
+                    std::cout << "Insert at x: " << e.mouseButton.x << ", y: " << e.mouseButton.y << std::endl;
+                    auto shape = sf::CircleShape(1);
+                    shape.setPosition(e.mouseButton.x, e.mouseButton.y);
+                    quadTree.Insert(shape);
+                }
                 break;
+
             default:
                 break;
         }
