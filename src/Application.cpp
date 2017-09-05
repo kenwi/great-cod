@@ -6,10 +6,12 @@
 
 #define SCREEN_WIDTH 1024
 #define SCREEN_HEIGHT 768
+#define RENDER_WINDOW_WIDTH 900
+#define RENDER_WINDOW_HEIGHT 700
 
 Application::Application() :
         renderWindow({SCREEN_WIDTH, SCREEN_HEIGHT}, "Application"),
-        quadTree(0, sf::RectangleShape({900, 700}), {0, 0})
+        quadTree(0, sf::RectangleShape({RENDER_WINDOW_WIDTH, RENDER_WINDOW_HEIGHT}), {0, 0})
 {
     quadTree.GetBounds().setPosition({
                     SCREEN_WIDTH/2 - quadTree.GetBounds().getSize().x/2,
@@ -65,6 +67,9 @@ void Application::handleWindowEvents() {
                 }
                 if(e.key.code == sf::Keyboard::S) {
                     quadTree.Split();
+                }
+                if(e.key.code == sf::Keyboard::C) {
+                    quadTree.Clear();
                 }
                 break;
             case sf::Event::MouseButtonPressed:

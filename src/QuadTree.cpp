@@ -14,16 +14,6 @@ QuadTree::QuadTree(unsigned int level, sf::RectangleShape bounds, sf::Vector2f p
     bounds.setFillColor(this->fillColor);
     bounds.setOutlineColor(this->outlineColor);
     this->bounds = bounds;
-
-    auto subWidth = bounds.getSize().x / 2;
-    auto subHeight = bounds.getSize().y /2;
-
-    auto x = bounds.getPosition().x;
-    auto y = bounds.getPosition().y;
-    auto shape = sf::RectangleShape({subWidth, subHeight});
-
-    std::cout << "Initialized quadtree" << std::endl;
-    std::cout << bounds.getPosition().x << ", " << bounds.getPosition().y << std::endl;
 }
 
 sf::RectangleShape& QuadTree::GetBounds() {
@@ -36,20 +26,30 @@ void QuadTree::Split() {
     auto subWidth = bounds.getSize().x / 2;
     auto subHeight = bounds.getSize().y /2;
 
+    auto padding = 1;
     auto x = bounds.getPosition().x;
     auto y = bounds.getPosition().y;
     auto shape = sf::RectangleShape({subWidth, subHeight});
 
-    nodes.emplace_back(level+1, shape, sf::Vector2<float>(x + subWidth, y));
-    nodes.emplace_back(level+1, shape, sf::Vector2<float>(x, y));
-    nodes.emplace_back(level+1, shape, sf::Vector2<float>(x, y + subHeight));
-    nodes.emplace_back(level+1, shape, sf::Vector2<float>(x+ subWidth, y + subHeight));
+    nodes.emplace_back(level+1, shape, sf::Vector2<float>(x + subWidth + padding, y - padding));
+    nodes.emplace_back(level+1, shape, sf::Vector2<float>(x - padding, y - padding));
+    nodes.emplace_back(level+1, shape, sf::Vector2<float>(x - padding, y + subHeight + padding));
+    nodes.emplace_back(level+1, shape, sf::Vector2<float>(x + subWidth + padding, y + subHeight + padding));
 
     std::cout << "Node count: " << nodes.size() << std::endl;
 }
 
 std::vector<QuadTree>& QuadTree::GetNodes() {
     return nodes;
+}
+
+void QuadTree::Clear() {
+    std::cout << "Clearing quadtree" << std::endl;
+    objects.clear();
+    for(auto& node : nodes) {
+        node.nodes.clear();
+    }
+    nodes.clear();
 }
 
 

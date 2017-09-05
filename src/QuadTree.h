@@ -14,6 +14,7 @@ class QuadTree {
 public:
     QuadTree(unsigned int level, sf::RectangleShape bounds, sf::Vector2f position);
 
+    void Clear();
     void Split();
     sf::RectangleShape& GetBounds();
     std::vector<QuadTree>& GetNodes();
@@ -24,7 +25,7 @@ private:
     sf::Color fillColor = sf::Color::Black;
     sf::Vector2f position;
 
-    float outlineThickness = 2;
+    float outlineThickness = 1;
     bool drawBounds = true;
     unsigned maxObjects = 10;
     unsigned maxLevels = 5;
