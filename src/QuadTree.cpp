@@ -16,8 +16,44 @@ QuadTree::QuadTree(unsigned int level, sf::RectangleShape bounds, sf::Vector2f p
     this->bounds = bounds;
 }
 
-sf::RectangleShape& QuadTree::GetBounds() {
-    return bounds;
+void QuadTree::Insert(sf::CircleShape shape) {
+    /*int index = getIndex(shape);
+    std::cout << "Index: " << index << std::endl;
+
+    if(index != -1) {
+        //objects[index]
+        //nodes[index] = QuadTree(level+1, bounds, shape.getPosition());
+        //[index].Insert(shape);
+        //return;
+    }*/
+
+    if(!nodes.empty()) {
+        int index = getIndex(shape);
+        if(index != -1) {
+            nodes[index].Insert(shape);
+        }
+    }
+
+    objects.push_back(shape);
+    auto currentSize = objects.size();
+    if(currentSize > maxObjects) {
+        if(nodes.empty()) {
+            Split();
+        }
+
+        int i = 0;
+        while(i < objects.size()) {
+            int index = getIndex(objects[i]);
+            if(index != -1) {
+                nodes[index].Insert(objects[i]);
+                objects.erase(objects.begin(), objects.begin()+1);
+            } else {
+                i++;
+            }
+        }
+    }
+    std::cout << "Objects in quad: " << objects.size();
+    std::cout << std::endl;
 }
 
 void QuadTree::Split() {
@@ -39,10 +75,6 @@ void QuadTree::Split() {
     std::cout << "Node count: " << nodes.size() << std::endl;
 }
 
-std::vector<QuadTree>& QuadTree::GetNodes() {
-    return nodes;
-}
-
 void QuadTree::Clear() {
     std::cout << "Clearing quadtree" << std::endl;
     objects.clear();
@@ -52,27 +84,28 @@ void QuadTree::Clear() {
     nodes.clear();
 }
 
-void QuadTree::Insert(sf::CircleShape shape) {
-    int index = getIndex(shape);
-    std::cout << "Index: " << index << std::endl;
-    /*
-    if(index != -1) {
-        nodes[index].Insert(shape);
-        return;
-    }
-    objects.push_back(shape);
-    */
-    /*objects.push_back(shape);
-    if(objects.size() > maxObjects && level > maxLevels) {
-        Split();
-    }*/
+sf::RectangleShape& QuadTree::GetBounds() {
+    return bounds;
+}
+
+std::vector<sf::CircleShape> QuadTree::GetObjects() {
+    return objects;
+}
+
+std::vector<QuadTree>& QuadTree::GetNodes() {
+    return nodes;
 }
 
 int QuadTree::getIndex(sf::CircleShape shape) {
     int index = -1;
 
-    double xMidpoint = bounds.getPosition().x + (bounds.getSize().x / 2);
-    double yMidpoint = bounds.getPosition().y + (bounds.getSize().y / 2);
+    auto xPosition = bounds.getPosition().x;
+    auto yPosition = bounds.getPosition().y;
+    auto xSize = bounds.getSize().x / 2;
+    auto ySize = bounds.getSize().y / 2;
+
+    double xMidpoint = xPosition + xSize;
+    double yMidpoint = yPosition + ySize;
 
     bool topQuadrant = (shape.getPosition().y < yMidpoint && shape.getPosition().y + shape.getRadius() < yMidpoint);
     bool bottomQuadrant = (shape.getPosition().y > yMidpoint);
@@ -94,8 +127,5 @@ int QuadTree::getIndex(sf::CircleShape shape) {
     return index;
 }
 
-std::vector<sf::CircleShape> QuadTree::GetObjects() {
-    return objects;
-}
 
 

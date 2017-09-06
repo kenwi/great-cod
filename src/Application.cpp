@@ -44,9 +44,15 @@ void Application::render(sf::Time time) {
     renderWindow.clear();
 
     renderWindow.draw(quadTree.GetBounds());
+
     for(auto &node : quadTree.GetNodes()) {
         renderWindow.draw(node.GetBounds());
     }
+
+    for(auto &object : quadTree.GetObjects()) {
+        renderWindow.draw(object);
+    }
+
     renderWindow.display();
 }
 
@@ -55,10 +61,10 @@ void Application::handleWindowEvents() {
     while(renderWindow.pollEvent(e)) {
         switch (e.type) {
             case sf::Event::Closed:
-
                 std::cout << "Event closed" << std::endl;
                 renderWindow.close();
                 break;
+
             case sf::Event::KeyPressed:
                 std::cout << "Key pressed: " << e.key.code << std::endl;
                 if(e.key.code == sf::Keyboard::Escape) {
@@ -70,14 +76,29 @@ void Application::handleWindowEvents() {
                 if(e.key.code == sf::Keyboard::C) {
                     quadTree.Clear();
                 }
+                if(e.key.code == sf::Keyboard::I) {
+                    auto nodeCount = quadTree.GetNodes().size();
+                    auto objectCount = quadTree.GetObjects().size();
+                    auto bounds = quadTree.GetBounds();
+
+                    std::cout << "Node count: " << nodeCount << ", Object count: " << objectCount << std::endl;
+                    std::cout << "Bounds: x = " << bounds.getPosition().x << ", y = " << bounds.getPosition().y << std::endl;
+                }
                 break;
+
             case sf::Event::MouseButtonPressed:
                 if(e.mouseButton.button == sf::Mouse::Left)
                 {
                     std::cout << "Insert at x: " << e.mouseButton.x << ", y: " << e.mouseButton.y << std::endl;
+
                     auto shape = sf::CircleShape(1);
+                    shape.setRadius(10);
                     shape.setPosition(e.mouseButton.x, e.mouseButton.y);
                     quadTree.Insert(shape);
+                }
+                if(e.mouseButton.button == sf::Mouse::Right) {
+                    auto quad = QuadTree(1, sf::RectangleShape({10, 10}), {10, 10});
+                    quadTree.GetNodes().push_back(quad);
                 }
                 break;
 
